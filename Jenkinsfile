@@ -1,6 +1,9 @@
 pipeline {
     agent any
 
+    environment {
+        NameSpace='linwenjun'
+    }
 
     stages {
 
