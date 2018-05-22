@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 public class VersionController {
 
     private int major = 1;
-    private int minor = 3;
+    private int minor = 2;
     private int patch = 0;
 
     @RequestMapping(method = RequestMethod.GET)
