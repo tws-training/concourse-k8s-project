@@ -8,6 +8,24 @@ pipeline {
 
     stages {
 
+        stage('Sonar') {
+            steps {
+                sh './gradlew sonarqube'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh './gradlew test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh './gradlew build'
+            }
+        }
+
         stage('Deploy') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: "training_pem", keyFileVariable: 'keyfile')]) {

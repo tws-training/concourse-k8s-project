@@ -3,7 +3,7 @@ package com.example.demo.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Compose {
+public class Anagrams {
     public static List<String> of(String str) {
         ArrayList<String> result = new ArrayList<>();
 
