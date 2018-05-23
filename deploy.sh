@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-echo $NameSpace;
+ssh -i $keyfile ubuntu@172.31.12.139 ls /home/ubuntu/works/$NameSpace

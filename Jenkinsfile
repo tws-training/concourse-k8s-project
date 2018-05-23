@@ -6,9 +6,12 @@ pipeline {
     }
 
     stages {
+
         stage('Deploy') {
             steps {
-                sh './deploy.sh'
+                withCredentials([sshUserPrivateKey(credentialsId: "training_pem", keyFileVariable: 'keyfile')]) {
+                    sh './deploy.sh'
+                }
             }
         }
     }
