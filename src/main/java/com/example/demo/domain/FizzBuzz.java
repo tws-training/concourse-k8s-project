@@ -1,22 +1,30 @@
 package com.example.demo.domain;
 
 public class FizzBuzz {
-
-    public static String of(int num) {
+    public static String run(int i) {
         String result = "";
 
-        if(num % 3 == 0) {
-            result += "Fizz";
+
+
+        if(i==0){
+            return "unsupport 0";
         }
 
-        if(num % 5 == 0) {
-            result += "Buzz";
+        if(i%15==0){
+            return "FizzBuzz";
+        }
+        if(i%3==0){
+            return "Fizz";
+        }
+        if(i%5==0){
+            return "Buzz";
         }
 
-        if(result.equals("")) {
-            result = "" + num;
+        else {
+            return String.valueOf(i);
         }
 
-        return result;
+//        return null;
+        //return result;
     }
 }
