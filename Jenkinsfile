@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         NameSpace='linwenjun'
+        WebServer='172.31.12.139'
     }
 
     stages {
