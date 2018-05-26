@@ -7,18 +7,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/version")
 public class VersionController {
 
-    private int major = 1;
-    private int minor = 2;
-    private int patch = 0;
-
     @RequestMapping(method = RequestMethod.GET)
     public String getVersion() {
-        return major + "." + minor + "." + patch;
-    }
-
-    @RequestMapping(path = "/major", method = RequestMethod.POST)
-    public String updateMajor() {
-        major++;
-        return getVersion();
+        String version = System.getenv("APP_VERSION");
+        if(version == "" || version == null) {
+            version = "0.9.9-alpha";
+        }
+        return version;
     }
 }
