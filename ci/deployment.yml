@@ -40,3 +40,17 @@ spec:
   ports:
   - port: 8080
     protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: concourse-k8s-project
+spec:
+  rules:
+  - host: demo.training.tws.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: concourse-k8s-project
+          servicePort: 8080
