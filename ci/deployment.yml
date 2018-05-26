@@ -1,0 +1,42 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: concourse-k8s-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: concourse-k8s-project
+  template:
+    metadata:
+      labels:
+        k8s-app: concourse-k8s-project
+    spec:
+      containers:
+      - image: 10.0.67.135/tws/concourse-k8s-project:DOCKER_VERSION
+        name: concourse-k8s-project
+        env:
+        - name: APP_VERSION
+          value: DOCKER_VERSION
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /healthy
+            port: 8080
+            httpHeaders:
+            - name: X-Custom-Header
+              value: Awesome
+          initialDelaySeconds: 3
+          periodSeconds: 3
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: concourse-k8s-project
+spec:
+  selector:
+    k8s-app: concourse-k8s-project
+  ports:
+  - port: 8080
+    protocol: TCP

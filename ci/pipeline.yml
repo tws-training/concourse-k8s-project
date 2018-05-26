@@ -1,0 +1,77 @@
+jobs:
+- name: concourse-k8s-project
+  public: true
+  serial: true
+  plan:
+  - get: git-resource
+    trigger: true
+  - put: version
+    params: {bump: patch}
+  - task: gradle-build
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: "10.0.67.135/library/gradle"
+          tag: 4.5-jdk8-alpine
+          insecure_registries: ["10.0.67.135"]
+      inputs:
+        - name: git-resource
+        - name: version
+      run:
+        path: git-resource/ci/build.sh
+      outputs:
+        - name: build
+  - put: docker-image
+    params:
+      tag_as_latest: true
+      tag: version/number
+      build: build
+  - put: kubernetes-staging
+    params:
+      kubectl: apply -f build/deployment.yml --record
+      wait_until_ready: 0
+
+resource_types:
+- name: kubernetes
+  type: docker-image
+  source:
+    repository: zlabjp/kubernetes-resource
+    tag: "1.9"
+    registry_mirror: ((registry_mirror))
+
+resources:
+- name: git-resource
+  type: git
+  source:
+    uri: git@github.com:tws-training/concourse-k8s-project.git
+    branch: master
+    private_key: ((concourse-repo-private-key))
+  check_every: 1m
+
+- name: version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:tws-training/concourse-semver.git
+    branch: version
+    file: concourse-k8s-project-version
+    private_key: ((concourse-repo-private-key))
+    depth: 2
+
+- name: docker-image
+  type: docker-image
+  source:
+    username: ((harbor_username))
+    password: ((harbor_password))
+    insecure_registries: ["10.0.67.135"]
+    registry_mirror: ((registry_mirror))
+    repository: "10.0.67.135/tws/concourse-k8s-project"
+
+- name: kubernetes-staging
+  type: kubernetes
+  source:
+    server: https://10.0.128.28:6443
+    token: ((kubernetes-token))
+    certificate_authority: ((certificate_authority))    
