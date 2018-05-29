@@ -36,5 +36,4 @@ public class FizzBuzzTest {
         String result = FizzBuzz.run(0);
         assertEquals("unsupport 0", result);
     }
-    //others
 }
