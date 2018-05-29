@@ -21,6 +21,7 @@ public class FibonacciTests {
     @Test
     public void should_return_1_when_input_3() {
         int result = Fibonacci.of(3);
+        
         assertThat(result).isEqualTo(2);
     }
 }
