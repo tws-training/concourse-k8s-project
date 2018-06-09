@@ -73,5 +73,4 @@ resources:
   type: kubernetes
   source:
     server: https://10.0.128.28:6443
-    token: ((kubernetes-token))
     certificate_authority: ((certificate_authority))    
